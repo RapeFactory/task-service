@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TaskList from './TaskList';
 import TaskCreator from './TaskCreator';
 import { CircularProgress } from '@material-ui/core';
+import moment from 'moment';
 
 const url = 'http://it4.ecookna.ru:8080/';
 class Tasks extends Component {
@@ -45,10 +46,9 @@ class Tasks extends Component {
     const body = {
       task_id: id,
       task: {
-        upload_date: new Date()
-          .toISOString()
-          .substring(0, 19)
-          .replace('T', ' ')
+        upload_date: moment().format()
+        .substring(0, 19)
+        .replace('T', ' ')
       }
     };
 
@@ -72,8 +72,7 @@ class Tasks extends Component {
 
     const body = {
       task: {
-        create_date: new Date()
-          .toISOString()
+        create_date: moment().format()
           .substring(0, 19)
           .replace('T', ' '),
         name: taskName.value,

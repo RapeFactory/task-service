@@ -9,7 +9,7 @@ const styles = theme => ({
   },
   input: {
     margin: theme.spacing.unit,
-    width: '300px'
+    width: '300px',
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -88,7 +88,7 @@ class TaskCreator extends Component {
               </MenuItem>
             ))}
           </Select>
-          <Button type="submit" className={classes.input} children={'Добавить задачу'} />
+          <Button type="submit" className={classes.input} children={'Добавить задачу'} color="secondary" variant="outlined" />
         </form>
       </Paper>
     );

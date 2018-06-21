@@ -99,7 +99,7 @@ class Tasks extends Component {
     const { tasks, groups } = this.state;
     return (
       <div>
-        <h2>Задачи</h2>
+        <h2>Задачи по переносу</h2>
         <TaskCreator groups={groups} create={this.create} />
         {tasks.length && groups.length ? (
           <TaskList tasks={tasks} groups={groups} updateTask={this.updateTask} />

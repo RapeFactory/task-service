@@ -9,10 +9,6 @@ const styles = theme => ({
 });
 
 class Task extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       classes,

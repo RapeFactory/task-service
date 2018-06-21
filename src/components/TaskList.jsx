@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Task from './Task';
-import { Paper } from '@material-ui/core';
+import { Paper, Switch, FormControlLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,7 +27,8 @@ class TaskList extends Component {
     super(props);
 
     this.state = {
-      tasks: []
+      tasks: [],
+      show: true
     };
   }
 
@@ -46,6 +47,13 @@ class TaskList extends Component {
     this.props.updateTask(id);
   };
 
+  changeSwitch = e => {
+    console.log(e.target.checked);
+    this.setState({
+      show: e.target.checked
+    });
+  };
+
   static getDerivedStateFromProps(props) {
     const { tasks: _tasks, groups } = props;
     const tasks = _tasks.map(task => {
@@ -55,17 +63,20 @@ class TaskList extends Component {
     });
 
     return {
-      tasks: tasks.sort((a,b) => b.id - a.id)
+      tasks: tasks.sort((a, b) => b.id - a.id)
     };
   }
 
   render() {
     const { classes } = this.props;
-    const { tasks } = this.state;
+    const { tasks, show } = this.state;
     return (
       <Paper className={classes.root}>
         <h3>Список задач</h3>
-
+        <FormControlLabel
+          control={<Switch checked={show} onChange={this.changeSwitch} />}
+          label="Показать отмеченные"
+        />
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -79,19 +90,26 @@ class TaskList extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map(task => (
-              <Task
-                checked={task.checked}
-                onCheck={this.onCheck(task.id)}
-                key={task.id}
-                taskName={task.name}
-                taskComment={task.comment}
-                taskCreateDate={moment(task.create_date).calendar()}
-                taskUploadDate={moment(task.upload_date).calendar()}
-                taskItems={task.items}
-                taskGroup={task.group}
-              />
-            ))}
+            {tasks
+              .filter(task => {
+                if (!show) {
+                  return !task.checked;
+                }
+                return true;
+              })
+              .map(task => (
+                <Task
+                  checked={task.checked}
+                  onCheck={this.onCheck(task.id)}
+                  key={task.id}
+                  taskName={task.name}
+                  taskComment={task.comment}
+                  taskCreateDate={moment(task.create_date).calendar()}
+                  taskUploadDate={moment(task.upload_date).calendar()}
+                  taskItems={task.items}
+                  taskGroup={task.group}
+                />
+              ))}
           </TableBody>
         </Table>
       </Paper>

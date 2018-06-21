@@ -101,7 +101,11 @@ class Tasks extends Component {
       <div>
         <h2>Задачи</h2>
         <TaskCreator groups={groups} create={this.create} />
-        {tasks.length && groups.length ? <TaskList tasks={tasks} groups={groups} updateTask={this.updateTask} /> : <CircularProgress />}
+        {tasks.length && groups.length ? (
+          <TaskList tasks={tasks} groups={groups} updateTask={this.updateTask} />
+        ) : (
+          <CircularProgress />
+        )}
       </div>
     );
   }

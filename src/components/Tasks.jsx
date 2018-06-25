@@ -4,7 +4,7 @@ import TaskCreator from './TaskCreator';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
 
-const url = 'http://it4.ecookna.ru:8080/';
+const url = 'http://it4.ecookna.ru:8000/';
 class Tasks extends Component {
   constructor(props) {
     super(props);

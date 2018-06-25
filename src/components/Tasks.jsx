@@ -9,19 +9,13 @@ class Tasks extends Component {
   constructor(props) {
     super(props);
 
-    this.fetchTasks = this.fetchTasks.bind(this);
-    this.fetchTasks();
-
-    this.fetchGroups = this.fetchGroups.bind(this);
-    this.fetchGroups();
-
     this.state = {
       tasks: [],
       groups: []
     };
   }
 
-  fetchGroups() {
+  fetchGroups = () => {
     fetch(`${url}groups`, {
       method: 'GET'
     })
@@ -30,7 +24,7 @@ class Tasks extends Component {
       .catch(error => console.error(error));
   }
 
-  fetchTasks() {
+  fetchTasks = () => {
     fetch(`${url}tasks`, {
       method: 'GET'
     })
@@ -94,6 +88,11 @@ class Tasks extends Component {
         .then(this.fetchTasks)
         .catch(error => console.error(error));
   };
+
+  componentDidMount() {
+    this.fetchTasks();
+    this.fetchGroups();
+  }
 
   render() {
     const { tasks, groups } = this.state;

@@ -73,6 +73,7 @@ class TaskCreator extends Component {
     return (
       <Paper className={classes.container}>
         <form onSubmit={this.sendCreate}>
+          <h3>Создание задачи</h3>
           <TextField
             onChange={this.onChange}
             id="taskName"

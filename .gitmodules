@@ -1,0 +1,3 @@
+[submodule "mysqlServer"]
+	path = mysqlServer
+	url = git://github.com/RapeFactory/mysqlServer.git

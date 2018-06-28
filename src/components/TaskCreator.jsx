@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Paper, Button, Select, MenuItem, TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import Items from './Items';
 
 const styles = theme => ({
   container: {
@@ -10,6 +11,7 @@ const styles = theme => ({
   input: {
     margin: theme.spacing.unit,
     width: '300px',
+    textAlign: 'left'
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -18,16 +20,13 @@ const styles = theme => ({
 });
 
 class TaskCreator extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      select: 1,
-      taskName: '',
-      comment: '',
-      items: ''
-    };
-  }
+  state = {
+    select: 1,
+    taskName: '',
+    comment: '',
+    item: '',
+    items: []
+  };
 
   onSelect = e => {
     this.setState({ select: e.target.value });
@@ -37,18 +36,39 @@ class TaskCreator extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  onAdd = e => {
+    this.setState({
+      items: [...this.state.items, this.state.item],
+      item: ''
+    });
+  };
+
+  onDelete = (i, e) => {
+    this.state.items.splice(i, 1);
+    this.setState({ items: this.state.items });
+  };
+
+  onEnter = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.onAdd();
+    }
+  };
+
   sendCreate = e => {
-    this.props.create(e);
+    e.preventDefault();
+    this.props.create(e, this.state.items);
     this.setState({
       select: 1,
       taskName: '',
       comment: '',
-      items: ''
+      item: '',
+      items: []
     });
-  }
+  };
 
   render() {
-    const { select, taskName, comment, items } = this.state;
+    const { select, taskName, comment, items, item } = this.state;
     const { classes, groups } = this.props;
     return (
       <Paper className={classes.container}>
@@ -68,27 +88,28 @@ class TaskCreator extends Component {
             placeholder="Комментарий"
             className={classes.input}
           />
-          <TextField
-            onChange={this.onChange}
-            id="items"
-            value={items}
-            multiline
-            placeholder="Элементы"
-            className={classes.input}
-          />
-          <Select
-            id="group_id"
-            value={select}
-            className={classes.input}
-            onChange={this.onSelect}
-          >
+          <Select id="group_id" value={select} className={classes.input} onChange={this.onSelect}>
             {groups.map(group => (
               <MenuItem value={group.id} key={group.id}>
-                <em>{group.name}</em>
+                {group.name}
               </MenuItem>
             ))}
           </Select>
-          <Button type="submit" className={classes.input} children={'Добавить задачу'} color="secondary" variant="outlined" />
+          <Items
+            onChange={this.onChange}
+            onAdd={this.onAdd}
+            items={items}
+            item={item}
+            onDelete={this.onDelete}
+            onEnter={this.onEnter}
+          />
+          <Button
+            type="submit"
+            className={classes.input}
+            children={'Добавить задачу'}
+            color="secondary"
+            variant="outlined"
+          />
         </form>
       </Paper>
     );

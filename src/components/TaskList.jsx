@@ -78,25 +78,20 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
+    overflowX: 'auto'
   },
   table: {
-    minWidth: 700,
+    minWidth: 700
   }
 });
 
 class TaskList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tasks: [],
-      show: true,
-      page: 0,
-      rowsPerPage: 5
-    };
-  }
+  state = {
+    tasks: [],
+    show: true,
+    page: 0,
+    rowsPerPage: 5
+  };
 
   onCheck = id => e => {
     e.target.checked && this.changeCheck(id);
@@ -129,9 +124,10 @@ class TaskList extends Component {
   };
 
   static getDerivedStateFromProps(props) {
-    const { tasks: _tasks, groups } = props;
+    const { tasks: _tasks, groups, items } = props;
     const tasks = _tasks.map(task => {
       task.group = groups.find(group => group.id === task.group_id).name;
+      task.items = items.filter(item => item.task_id === task.id).map(item => item.name).join(' ✌ ');
       task.checked = task.upload_date ? true : false;
       return task;
     });

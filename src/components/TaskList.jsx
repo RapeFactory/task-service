@@ -90,7 +90,7 @@ class TaskList extends Component {
     tasks: [],
     show: true,
     page: 0,
-    rowsPerPage: 5
+    rowsPerPage: 10
   };
 
   onCheck = id => e => {
@@ -127,7 +127,10 @@ class TaskList extends Component {
     const { tasks: _tasks, groups, items } = props;
     const tasks = _tasks.map(task => {
       task.group = groups.find(group => group.id === task.group_id).name;
-      task.items = items.filter(item => item.task_id === task.id).map(item => item.name).join(' ✌ ');
+      task.items = items
+        .filter(item => item.task_id === task.id)
+        .map(item => item.name)
+        .join(' ✌ ');
       task.checked = task.upload_date ? true : false;
       return task;
     });
@@ -139,7 +142,8 @@ class TaskList extends Component {
 
   render() {
     const { classes } = this.props;
-    const { tasks, show, rowsPerPage, page } = this.state;
+    const { tasks: _tasks, show, rowsPerPage, page } = this.state;
+    const tasks = _tasks.filter(task => (!show ? !task.checked : true));
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, tasks.length - page * rowsPerPage);
 
     return (
@@ -163,12 +167,6 @@ class TaskList extends Component {
           </TableHead>
           <TableBody>
             {tasks
-              .filter(task => {
-                if (!show) {
-                  return !task.checked;
-                }
-                return true;
-              })
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(task => (
                 <Task

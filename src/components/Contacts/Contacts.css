@@ -1,0 +1,15 @@
+.contacts {
+  grid-column: 1 / 3;
+  place-self: center;
+  margin: 5px;
+  opacity: 0.5;
+}
+
+.contacts:hover {
+  opacity: 0.9;
+}
+
+.contacts img {
+  width: 32px;
+  height: 32px;
+}

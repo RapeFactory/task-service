@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import TaskList from './TaskList';
 import TaskCreator from './TaskCreator';
+import Contacts from './Contacts'
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
 
@@ -134,6 +135,7 @@ class Tasks extends Component {
       <Fragment>
         {groups && <TaskCreator groups={groups} create={this.create} />}
         {tasks && groups && items ? <TaskList {...this.state} updateTask={this.updateTask} /> : <CircularProgress />}
+        <Contacts />
       </Fragment>
     );
   }

@@ -4,7 +4,7 @@ import TaskCreator from './TaskCreator';
 import { CircularProgress } from '@material-ui/core';
 import moment from 'moment';
 
-const url = process.env.NODE_ENV === 'production' ? 'https://pure-mountain-30478.herokuapp.com/' : 'http://localhost:80/';
+const url = window.location.href;
 class Tasks extends Component {
   state = {
     tasks: null,
